@@ -1,0 +1,9 @@
+# .gitignore
+.env
+*.env
+venv/
+__pycache__/
+pdfs/
+samples/
+backend/.env
+.npz
