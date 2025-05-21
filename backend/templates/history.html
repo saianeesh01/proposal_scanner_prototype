@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan History</title>
+</head>
+<body>
+    <h2>📄 Scan History</h2>
+    <a href="/">← Back to Upload</a>
+    <br><br>
+
+    {% if rows %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Filename</th>
+                <th>Prediction</th>
+                <th>Distance</th>
+                <th>Preview</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row["Timestamp"] }}</td>
+                    <td>{{ row["Filename"] }}</td>
+                    <td>{{ row["Label"] }}</td>
+                    <td>{{ row["Distance"] }}</td>
+                    <td>{{ row["Preview"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    {% else %}
+        <p>No scan history yet.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,96 @@
+/* Base styles */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f4f7fb;
+    color: #222;
+    margin: 40px auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+h2, h3 {
+    color: #0a3d62;
+}
+
+a {
+    color: #0a3d62;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+button, .toggle-button {
+    background-color: #0a3d62;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px;
+}
+
+button:hover, .toggle-button:hover {
+    background-color: #064173;
+}
+
+.collapsible {
+    display: none;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+pre {
+    background-color: #fff;
+    padding: 12px;
+    border-left: 6px solid #ccc;
+    white-space: pre-wrap;
+}
+
+
+
+
+.green {
+    border-left: 6px solid #28a745;
+    background-color: #e6f4ea;
+}
+.orange {
+    border-left: 6px solid #ff9800;
+    background-color: #fff3e0;
+}
+.yellow {
+    border-left: 6px solid #ffcc00;
+    background-color: #fff9e6;
+}
+.red {
+    border-left: 6px solid #e53935;
+    background-color: #fdecea;
+}
+
+.text-box {
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-box {
+    background-color: #e9f5ff;
+    color: #1a1a1a;
+    padding: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    border-left: 5px solid #007acc;
+    border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
