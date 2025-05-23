@@ -1,4 +1,10 @@
-boto3
 flask
 python-dotenv
+boto3
+pdf2image
+pytesseract
+sentence-transformers
+faiss-cpu
 requests
+numpy
+torch

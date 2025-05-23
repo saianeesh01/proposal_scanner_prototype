@@ -1,80 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Proposal Document Scanner</title>
+    <title>Proposal Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="/history">View Scan History</a>
+<div class="navbar">
+    <div class="logo">LegalScan</div>
+    <div class="nav-links">
+        <a href="#">Dashboard</a>
+        <a href="#">Proposals</a>
+        <a href="#">Clients</a>
+        <a href="#">Settings</a>
+    </div>
+</div>
 
-    <h2>Upload a Document (PDF/Image)</h2>
-    <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
-        <input type="file" name="document" accept=".pdf,.png,.jpg,.jpeg" required>
-        <button type="submit" name="scan_type" value="local">📄 Regular Scan</button>
-        <button type="submit" name="scan_type" value="s3">☁️ Hybrid Scan (S3)</button>
-    </form>
+<div class="main">
+    <h2>Proposals</h2>
+
+    <div class="top-bar">
+        <input type="text" class="search-bar" placeholder="Search proposals">
+        <button class="new-btn" onclick="openUploadModal()">New Proposal</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active">All</button>
+        <button class="tab">Pending</button>
+        <button class="tab">Approved</button>
+    </div>
+
+    <table class="proposal-table">
+        <thead>
+        <tr>
+            <th>Proposal ID</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in proposals %}
+        <tr>
+            <td>#{{ row.id }}</td>
+            <td>{{ row.client }}</td>
+            <td>{{ row.date }}</td>
+            <td><span class="badge {{ row.status|lower }}">{{ row.status }}</span></td>
+            <td><a href="#">View</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     {% if prediction %}
-        <h3>Prediction:</h3>
-        <div class="{% if 'PROPOSAL' in prediction %}green{% elif 'NEEDS REVIEW' in prediction %}orange{% elif 'MAYBE_PROPOSAL' in prediction %}yellow{% else %}red{% endif %}">
-            <p style="padding-left: 10px;">
-                {% if "PROPOSAL" in prediction %}
-                    ✅ {{ prediction }}
-                {% elif "NEEDS REVIEW" in prediction %}
-                    ⚠️ {{ prediction }}
-                {% elif "MAYBE_PROPOSAL" in prediction %}
-                    🤔 {{ prediction }}
-                {% else %}
-                    ❌ {{ prediction }}
-                {% endif %}
-            </p>
-        </div>
+    <div style="margin-top: 30px;">
+        <h4>Prediction:</h4>
+        <p>
+            {% if "PROPOSAL" in prediction %}
+                ✅ {{ prediction }}
+            {% elif "MAYBE_PROPOSAL" in prediction %}
+                🤔 {{ prediction }}
+            {% else %}
+                ❌ {{ prediction }}
+            {% endif %}
+            {% if used_keywords %}
+                <span style="color: #888;">🔎 Boosted by keywords</span>
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
 
-        {% if used_keywords %}
-            <p style="color: #888; font-size: 0.9em;">🔎 Boosted with keyword match (e.g., "proposal", "budget")</p>
-        {% endif %}
+    {% if summary %}
+    <h4>📋 Summary</h4>
+    <div style="background: #f7f7f7; padding: 10px; border-radius: 5px;">
+        <pre>{{ summary }}</pre>
+    </div>
     {% endif %}
 
     {% if text %}
-<button class="toggle-button" onclick="toggle('text')">Show/Hide Extracted Text</button>
-<div id="text" class="collapsible">
-    <pre class="text-box">{{ text }}</pre>
-</div>
-{% endif %}
-
-{% if summary %}
-<button class="toggle-button" onclick="toggle('summary')">Show/Hide Summary</button>
-<div id="summary" class="collapsible">
-    <pre class="summary-box">{{ summary }}</pre>
-</div>
-{% endif %}
-
-
-    {% if form_fields %}
-        <h3>📋 Structured Data (Detected Fields):</h3>
-        <div style="border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
-            <ul>
-                {% for key, value in form_fields %}
-                    <li><strong>{{ key }}:</strong> {{ value }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    <div id="loading" style="display: none; text-align: center; color: #0066cc; font-weight: bold; margin-top: 20px;">
-        🔄 Scanning document... please wait.
+    <h4>🧾 Extracted Text</h4>
+    <div style="background: #f7f7f7; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;">
+        <pre>{{ text }}</pre>
     </div>
+    {% endif %}
+</div>
 
-    <script>
-        function toggle(id) {
-            var el = document.getElementById(id);
-            el.style.display = el.style.display === "block" ? "none" : "block";
-        }
+<!-- 🔄 Modal Upload Form -->
+<div id="uploadModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeUploadModal()">&times;</span>
+        <h3>Upload Proposal Document</h3>
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+            <input type="file" name="document" accept=".pdf,.png,.jpg,.jpeg" required>
+            <div style="margin-top: 10px;">
+                <button type="submit" name="scan_type" value="local">📄 Regular Scan</button>
+                <button type="submit" name="scan_type" value="s3">☁️ Hybrid Scan (S3)</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-        function showLoading() {
-            document.getElementById("loading").style.display = "block";
-        }
-    </script>
+<!-- 💅 Modal + Loader Styles -->
+<style>
+.modal {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+</style>
+
+<!-- 🧠 Modal Scripts -->
+<script>
+function openUploadModal() {
+    document.getElementById('uploadModal').style.display = 'flex';
+}
+function closeUploadModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+}
+function showLoading() {
+    closeUploadModal();
+    alert("📤 Uploading... Please wait.");
+}
+</script>
 
 </body>
 </html>

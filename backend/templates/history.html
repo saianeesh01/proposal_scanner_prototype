@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scan History</title>
+    <title>Proposal History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>📄 Scan History</h2>
-    <a href="/">← Back to Upload</a>
-    <br><br>
+    <h1>Proposals</h1>
 
-    {% if rows %}
-    <table border="1" cellpadding="8" cellspacing="0">
+    <input type="search" placeholder="Search proposals...">
+
+    <table>
         <thead>
             <tr>
-                <th>Timestamp</th>
-                <th>Filename</th>
-                <th>Prediction</th>
-                <th>Distance</th>
-                <th>Preview</th>
+                <th>Proposal ID</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for row in rows %}
-                <tr>
-                    <td>{{ row["Timestamp"] }}</td>
-                    <td>{{ row["Filename"] }}</td>
-                    <td>{{ row["Label"] }}</td>
-                    <td>{{ row["Distance"] }}</td>
-                    <td>{{ row["Preview"] }}</td>
-                </tr>
+            <tr>
+                <td>#{{ loop.index }}</td>
+                <td>{{ row['Client'] or "Unknown" }}</td>
+                <td>{{ row['Timestamp'] }}</td>
+                <td>
+                    <span class="status {{ row['Label'] | lower }}">{{ row['Label'] }}</span>
+                </td>
+                <td><a href="#">View</a></td>
+            </tr>
             {% endfor %}
         </tbody>
-        
     </table>
-    {% else %}
-        <p>No scan history yet.</p>
-    {% endif %}
+
+    <a href="/">← Back to Scanner</a>
 </body>
 </html>
