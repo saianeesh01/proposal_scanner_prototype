@@ -1,6 +1,3 @@
-
-
-````markdown
 # 🧠 LegalScan – AI-Powered Proposal Classifier
 
 LegalScan is a full-stack intelligent web app that classifies uploaded documents as formal **proposals** or **non-proposals**, using a hybrid of **vector similarity (FAISS)**, **heuristic rules**, and **LLM-based summarization**. Built for legal professionals.
@@ -51,7 +48,7 @@ cd legal-scan/backend
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
-````
+```
 
 ### 2. Configure `.env`
 
@@ -79,7 +76,6 @@ Each prediction is determined by:
 
 * **Vector similarity score** (FAISS-trained embeddings)
 * **Rule-based boosters**:
-
   * ✅ Header match (`Request for Proposal`, etc.)
   * ✅ Keyword density (budget, deliverables, etc.)
   * ✅ Structured sections (e.g., "Scope of Work", "Evaluation")
