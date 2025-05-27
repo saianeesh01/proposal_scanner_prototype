@@ -7,3 +7,4 @@ pdfs/
 samples/
 backend/.env
 .npz
+backend/venv/

@@ -33,57 +33,32 @@
     <table class="proposal-table">
         <thead>
         <tr>
-            <th>Proposal ID</th>
-            <th>Client</th>
-            <th>Date</th>
+            <th>ID</th>
+            <th>Filename</th>
+            <th>Scanned At</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for row in proposals %}
-        <tr>
+        <tr onclick="window.location.href='/results/{{ row.id }}'">
             <td>#{{ row.id }}</td>
-            <td>{{ row.client }}</td>
-            <td>{{ row.date }}</td>
-            <td><span class="badge {{ row.status|lower }}">{{ row.status }}</span></td>
-            <td><a href="#">View</a></td>
+            <td>{{ row.filename }}</td>
+            <td>{{ row.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <span class="badge">
+                    {% if "PROPOSAL" in row.prediction %}✅ Proposal
+                    {% elif "MAYBE" in row.prediction %}🤔 Maybe
+                    {% else %}❌ Not a Proposal
+                    {% endif %}
+                </span>
+            </td>
+            <td><a href="/results/{{ row.id }}">View</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    {% if prediction %}
-    <div style="margin-top: 30px;">
-        <h4>Prediction:</h4>
-        <p>
-            {% if "PROPOSAL" in prediction %}
-                ✅ {{ prediction }}
-            {% elif "MAYBE_PROPOSAL" in prediction %}
-                🤔 {{ prediction }}
-            {% else %}
-                ❌ {{ prediction }}
-            {% endif %}
-            {% if used_keywords %}
-                <span style="color: #888;">🔎 Boosted by keywords</span>
-            {% endif %}
-        </p>
-    </div>
-    {% endif %}
-
-    {% if summary %}
-    <h4>📋 Summary</h4>
-    <div style="background: #f7f7f7; padding: 10px; border-radius: 5px;">
-        <pre>{{ summary }}</pre>
-    </div>
-    {% endif %}
-
-    {% if text %}
-    <h4>🧾 Extracted Text</h4>
-    <div style="background: #f7f7f7; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;">
-        <pre>{{ text }}</pre>
-    </div>
-    {% endif %}
 </div>
 
 <!-- 🔄 Modal Upload Form -->

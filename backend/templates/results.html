@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="main">
+    <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+
+    <h2>📝 Scan Result</h2>
+
+    <div class="result-block">
+        <h3>Prediction:</h3>
+        <p>
+            {% if "PROPOSAL" in prediction %}
+                ✅ {{ prediction }}
+            {% elif "MAYBE" in prediction %}
+                🤔 {{ prediction }}
+            {% else %}
+                ❌ {{ prediction }}
+            {% endif %}
+        </p>
+
+        {% if rules %}
+        <h4>🔍 Rule Breakdown</h4>
+        <ul>
+            <li>🗂️ Keyword Match: {{ "✅" if rules.keywords else "❌" }}</li>
+            <li>📑 Structured Sections: {{ "✅" if rules.structure else "❌" }}</li>
+            <li>📌 Formal Header: {{ "✅" if rules.header else "❌" }}</li>
+            <li>📬 Submission Language: {{ "✅" if rules.submission else "❌" }}</li>
+        </ul>
+        {% endif %}
+
+        {% if "NON_PROPOSAL" in prediction or "MAYBE" in prediction %}
+        <h4>⚠️ Suggestions to Improve</h4>
+        <ul>
+            {% if not rules.keywords %}
+                <li>Add proposal-specific keywords like <strong>"scope of work", "budget", "deliverables"</strong>.</li>
+            {% endif %}
+            {% if not rules.structure %}
+                <li>Include structured sections (e.g., "Timeline", "Evaluation Criteria").</li>
+            {% endif %}
+            {% if not rules.header %}
+                <li>Start the document with a formal header like "Request for Proposal".</li>
+            {% endif %}
+            {% if not rules.submission %}
+                <li>Mention submission details (e.g., deadlines, how to submit).</li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+
+    {% if summary %}
+    <h3>📋 Summary</h3>
+    <div class="summary-box">
+        <pre>{{ summary }}</pre>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
