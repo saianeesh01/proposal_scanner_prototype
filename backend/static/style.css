@@ -165,3 +165,111 @@ pre {
     overflow-y: auto;
     margin-bottom: 20px;
 }
+
+.proposal-table tbody tr:hover {
+    background-color: #f3f4f6;
+    cursor: pointer;
+}
+
+.badge.proposal {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge.maybe {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge.not-proposal {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.modal {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(31, 41, 55, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 32px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+button,
+.search-bar,
+.badge,
+.modal-content {
+    transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .proposal-table th, .proposal-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+.proposal-table {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+button:focus,
+input:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border: 3px solid #4299e1;
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}

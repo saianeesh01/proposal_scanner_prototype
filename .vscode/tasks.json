@@ -1,0 +1,20 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Debug OCR Utils",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"pytest",
+				"backend/"
+			],
+			"group": "test",
+			"problemMatcher": [
+				"$pytestError"
+			],
+			"isBackground": false
+		}
+	]
+}

@@ -8,3 +8,5 @@ samples/
 backend/.env
 .npz
 backend/venv/
+# Ignore test files
+backend/test_*.py

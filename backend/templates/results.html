@@ -51,12 +51,32 @@
         {% endif %}
     </div>
 
-    {% if summary %}
-    <h3>📋 Summary</h3>
-    <div class="summary-box">
-        <pre>{{ summary }}</pre>
+    <div style="margin-top: 1.5em;">
+        <strong>Summary:</strong>
+        {% if not summary_ready %}
+            <div class="loading-summary">
+                <p><span class="spinner"></span>Summary is being generated... Please wait.</p>
+                <script>
+                    setTimeout(function() { location.reload(); }, 3000);
+                </script>
+            </div>
+        {% else %}
+            <div class="summary-box">
+                <pre>{{ summary }}</pre>
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
+    <div style="margin-top: 1.5em;">
+        <strong>Qualifier Details:</strong>
+        <ul>
+            {% for key, value in rules.items() %}
+                <li><b>{{ key|capitalize }}:</b> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div style="margin-top: 2em;">
+        <a href="/dashboard" class="button">Back to Dashboard</a>
+    </div>
 </div>
 </body>
 </html>
